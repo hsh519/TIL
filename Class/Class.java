@@ -8,6 +8,10 @@ public class Class {
         example4();
         example5();
         example6();
+        example7();
+        example8();
+        example9();
+        example10();
     }
     public static void example1() {
         // new 클래스() 형태로 인스턴스 생성
@@ -173,5 +177,67 @@ public class Class {
 
         int result4 = myCalc.sum2(1,2,3,4,5);
         System.out.println(result4);
+    }
+    public static void example7() {
+        // return 문
+        // return 문을 만나면 메서드가 강제 종료됨
+        // 단순히 루프를 탈출하고 싶다면 break 가 맞음
+        // 루프를 탈출한 후에 실행할 문장이 있는데 return 을 써버리면
+        // 루프 탈출이 아닌 메서드를 강제 종료해버리기 때문에 뒷 문장이 실행되지 않음
+        // 메서드는 리턴값을 가질수도 있고, 리턴값을 가지지 않을 수도 있음
+        // 리턴값을 가지면 리턴값을 사용하기 위해 변수에 저장
+        // 이때 리턴값의 리턴 타입과 변수의 타입이 일치하거나 자동 형변환이 될수 있는 타입이어야 함
+        // 리턴값을 가지지 않으면 변수에 저장할 필요 없음
+        Car myCar = new Car();
+        myCar.setGas(5); // 리턴값 X
+
+        boolean gasState = myCar.isLeftGas(); // true or false 리턴값이 존재
+        if(gasState) {
+            System.out.println("출발합니다.");
+            myCar.run(); // 리턴값 X
+        }
+
+        if(myCar.isLeftGas()) {
+            System.out.println("gas를 주입할 필요가 없습니다.");
+        } else {
+            System.out.println("gas를 주입하세요.");
+        }
+    }
+    public static void example8() {
+        // 클래스 내부에서 메서드 호출
+        // 클래스 내부에서 메서드 호출과 클래스 외부에서 메서드 호출이 있음
+        // 클래스 내부에서 메서드 호출할 때는 메서드 이름과 해당 메서드의 매개변수 개수와
+        // 타입에 맞춰서 매개값을 전달하면 됨. 혹은 자동 형변환이 가능한 타입
+        Calculator myCalc = new Calculator();
+        myCalc.execute();
+    }
+    public static void example9() {
+        // 클래스 외부에서 메서드 호출
+        // 클래서 외부에서 매서드 호출할 땐 반드시 인스턴스(=객체) 생성이 필수
+        // 인스턴스가 생성되어야 인스턴스 메서드가 생성되기 때문
+        // 도트 연산자(.)를 사용해서 인스턴스 메서드에 접근해 호출
+        Car2 myCar = new Car2();
+        myCar.keyTurnOn();
+        myCar.run();
+        int speed = myCar.getSpeed();
+        System.out.println("현재 속도: " + speed + "km/h");
+    }
+    public static void example10() {
+        // 메서드 오버로딩
+        // 클래스 내에 같은 이름의 메서드를 여러개 생성하는 것을 의미
+        // 매개값을 다양하게 받아 처리할 수 있도록 하기위함
+        // 리턴 타입은 무관, 메서드 이름은 같아야 하며
+        // 매개변수의 타입, 순서, 개수중 하나라도 달라야 함
+        // 오버로딩된 메서드를 호출하면 매개값의 타입을 보고 메서드를 선택
+        // 매개값의 타입이 일치하지 않더라도 어떤 메서드 타입으로 자동 형변환이 가능하다면
+        // 해당 메서드 호출
+        // 매개변수 명만 바꾼다던가 리턴 타입만 바꾸는건 메서드 오버로딩이 아님
+        Calculator myCalc = new Calculator();
+
+        double result1 = myCalc.areaRectangle(10);
+        double result2 = myCalc.areaRectangle(10, 20);
+
+        System.out.println("정사각형 넓이: " + result1);
+        System.out.println("직사각형 넓이: " + result2);
     }
 }
