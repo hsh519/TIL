@@ -1,6 +1,13 @@
 package Class;
 
 public class Calculator {
+    static double pi = 3.14159;
+    static int plusThree(int x) {
+        return x + 3;
+    }
+    static int minus(int x, int y) {
+        return x - y;
+    }
     void powerOn() {
         System.out.println("전원을 켭니다.");
     }

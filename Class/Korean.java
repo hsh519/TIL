@@ -1,9 +1,9 @@
 package Class;
 
 public class Korean {
-    String nation = "대한민국";
+    final String nation = "대한민국";
     String name;
-    String ssn;
+    final String ssn;
 
     Korean(String n, String s) {
         name = n;

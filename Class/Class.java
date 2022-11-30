@@ -1,5 +1,7 @@
 package Class;
 
+import javax.xml.parsers.SAXParser;
+
 public class Class {
     public static void main(String[] args) {
         example1();
@@ -12,6 +14,13 @@ public class Class {
         example8();
         example9();
         example10();
+        example11();
+        example12();
+        example13();
+        example14();
+        example15();
+        example16();
+
     }
     public static void example1() {
         // new 클래스() 형태로 인스턴스 생성
@@ -221,6 +230,7 @@ public class Class {
         myCar.run();
         int speed = myCar.getSpeed();
         System.out.println("현재 속도: " + speed + "km/h");
+        System.out.println();
     }
     public static void example10() {
         // 메서드 오버로딩
@@ -239,5 +249,112 @@ public class Class {
 
         System.out.println("정사각형 넓이: " + result1);
         System.out.println("직사각형 넓이: " + result2);
+        System.out.println();
+    }
+    public static void example11() {
+        // 인스턴스 멤버와 this
+        // 클래스를 만들고 그걸 토대로 인스턴스를 생성
+        // 인스턴스가 생성되면 필드와 메서드를 사용 가능
+        // 인스턴스별로 필드와 메서드가 있기 때문에 이들을 인스턴스 멤버라고 부름
+        // 인스턴스 멤버는 인스턴스 필드와 인스턴스 메서드를 뜻함
+        // 도트 연산자(.)를 사용해서 접근할 수 있음
+        // 인스턴스 필드는 힙 영역에, 인스턴스 메서드는 메서드 영역에 저장되어 공유
+        // this 는 자기 자신을 뜻함
+        // 보통 this 는 자신의 필드를 초기화할 때 사용
+        Car2 myCar1 = new Car2("벤츠");
+        Car2 myCar2 = new Car2("포르쉐");
+
+        myCar1.run();
+        myCar2.run();
+        System.out.println();
+    }
+    public static void example12() {
+        // 정적 멤버와 static
+        // 클래스에 고정된 멤버로서 객체를 생성하지 않고 사용할 수 있는 필드와 메서드 -> 정적 멤버
+        // 정적 멤버(정적 필드, 정적 메서드) 선언 방법은 앞에 static 을 붙임
+        // 클래스에 고정된 멤버기 때문에 클래스 로딩이 끝나면 바로 사용 가능
+        // 클래스 로딩이 끝나면 클래스 별로 메서드 영역에 적재
+        // 인스턴스 이름으로도 접근할 수도 있지만 클래스에 고정된 멤버기 때문에
+        // 이왕이면 클래스 이름으로 접근하는 것이 좋음
+        // 인스턴스 마다 꼭 가져야 하는 필드가 아니면 정적 필드, 아니면 인스턴스 필드
+        // 인스턴스 필드를 사욜하지 않는다면 정적 메서드, 아니면 인스턴스 메서드
+
+        // 정적 메서드, 정적 블록 선언 시 주의 사항
+        // 정적 메서드와 정적 블록 내에는 인스턴스 멤버가 올 수 없음. this 키워드 또한 사용 불가
+        // 인스턴스 없이 실행되는 정적 메서드와 정적 블록
+        // 그 안에 인스턴스 멤버를 사용하면 인스턴스 멤버 또한
+        // 인스턴스 없이 접근할 수 있기 때문에 문제가 생길 수 있음
+        // main() 메서드도 정적 메서드이기 때문에 그 내부에는
+        // 인스턴스 필드나 인스턴스 메서드를 직접적으로 작성 불가
+        // 인스턴스 생성 후 도트 연산자를 사용해 접근해야 함
+
+        // 정적 멤버기 때문에 인스턴스 생성 없이 사용 가능
+        double result1 = 10 * 10 * Calculator.pi;
+        int result2 = Calculator.plusThree(4);
+        int result3 = Calculator.minus(5,2);
+
+        System.out.println(result1);
+        System.out.println(result2);
+        System.out.println(result3);
+        System.out.println();
+    }
+    public static void example13() {
+        // 정적 초기화 블럭
+        // 정적 필드는 대게 필드 선언과 함께 초기화
+        // 그러나 초기값의 연산이 필요할 경우 선언 후에 초기화 작업이 필요함
+        // 인스턴스 생성과 무관하기 때문에 생성자 내부에는 초기화 작업 불가
+        // 그래서 정적 블럭을 사용
+        // 정적 블럭도 클래스가 로딩될 때 자동 실행
+        // 정적 초기화 블럭은 여러 개가 존재해도 상관없으며 선언된 순서대로 진행됨
+        System.out.println(Television.info);
+        System.out.println();
+    }
+    public static void example14() {
+        // 싱글톤
+        // 단 하나의 객체를 뜻함
+        // 단 하나의 객체를 만들기 위해선 클래스에서 생성자와 필드를 private 해야함
+        // private 하면 외부에서 접근 불가
+        // 그리고 필드에서 객체를 생성. 이후에 그 객체를 메서드를 통해 접근할 수 있도록 함
+        // 생성자에 접근하지 못하기 때문에 객체를 생성할 수 없음
+        // 객체를 생성할 수 없기 때문에 정적 메서드가 되어야 하며 객체가 정적 메서드로 부터
+        // 리턴되기 위해선 인스턴스 필드가 아닌 정적 필드가 되야함
+        // 따라서 필드도 정적 필드로 만듬
+
+        // obj1 과 obj2 가 getInstance() 메서드로 Singleton 객체를 호출하지만
+        // 객체는 단 하나기 때문에 객체를 가리키는 주소값은 동일
+        Singleton obj1 = Singleton.getInstance();
+        Singleton obj2 = Singleton.getInstance();
+
+        if(obj1 == obj2) {
+            System.out.println("같은 Singleton 객체입니다.");
+        } else {
+            System.out.println("다른 Singleton 객체입니다.");
+        }
+        System.out.println();
+    }
+    public static void example15() {
+        // final 필드
+        // 초기값이 저장되면 그 값이 최종값이 되어 프로그램 실행 중간에 수정할 수 없는 것
+        // final 필드에 초기값을 주는 방법은 필드 선언 시 주는 방법과
+        // 생성자에서 주는 방법
+        // final 필드를 초기화하지 않으면 컴파일 에러
+        Korean k1 = new Korean("123456-1234567", "홍석환");
+
+        System.out.println(k1.nation);
+        System.out.println(k1.name);
+        System.out.println(k1.ssn);
+
+        // nation 필드와 ssn 필드는 final 필드라서 프로그램 중간에 수정이 불가
+        // k1.nation = "미국"
+        // k1.ssn = "111111-1111111"
+        k1.name = "new name";
+        System.out.println();
+    }
+    public static void example16() {
+        // 상수와 final 필드
+        // final 필드는 한번 초기화하면 프로그램 중간에 값을 바꿀수 없음
+        // 이런 면에서 상수와 같다고 생각할 수 있음
+        System.out.println("지구 반지름 : " + Earth.EARTH_RADIUS);
+        System.out.println("지구 둘래 : " + Earth.EARTH_SURFACE_AREA);
     }
 }
