@@ -1,6 +1,9 @@
 package Class;
 
-import javax.xml.parsers.SAXParser;
+import hankook.*;
+import kumho.*;
+
+import java.lang.reflect.Method;
 
 public class Class {
     public static void main(String[] args) {
@@ -20,6 +23,8 @@ public class Class {
         example14();
         example15();
         example16();
+        example19();
+        example20();
 
     }
     public static void example1() {
@@ -354,7 +359,123 @@ public class Class {
         // 상수와 final 필드
         // final 필드는 한번 초기화하면 프로그램 중간에 값을 바꿀수 없음
         // 이런 면에서 상수와 같다고 생각할 수 있음
+        // 하지만 final 필드와 상수는 전혀 다름
+        // 상수는 객체마다 저장할 필요없는 불변의 값 (static + final)
+        // final 필드는 객체마다 가지고 있지만 한번 설정하면 그것이 최종값이 되는 것
+        // 즉, 객체마다 가질수 있어 여러개의 값을 가질수 있음. 상수와 엄연히 다름
+        // 상수명은 모두 대문자로 작성하는 것이 관례
         System.out.println("지구 반지름 : " + Earth.EARTH_RADIUS);
         System.out.println("지구 둘래 : " + Earth.EARTH_SURFACE_AREA);
+        System.out.println();
+    }
+    public static void example17() {
+        // 패키지와 import
+        // 클래스를 체계적으로 관리하기 위해 패키지를 만들어 클래스를 저장 관리한다.
+        // 물리적인 형태는 폴더와 동일. 하지만 패키지는 클래스의 일부분
+        // 클래스의 전체 이름은 "패키지명 + 클래스명"
+        // 따라서 클래스명이 같아도 패키지명이 다르면 다른 클래스로 인식
+        // 또한 복붙할때도 패키지까지 해줘야함
+        // 패키지 이름은 보통 도메인 이름 역순으로 지어줌
+        // 다른 패키지에 속한 클래스를 사용할 떄 두가지 방법이 존재
+        // 클래스의 전체 이름을 다 적어주는 것과 패키지를 import 후 클래스명만 적어주는 것
+        // 대게 import 문을 많이 씀. import 문 작성 위치는 패키지 선언과 클래스 선언 사이
+        // * 은 해당 패키지에 속하는 모든 클래스를 뜻함. 패키지는 아님
+        // 따라서 해당 패키지의 하위 패키지의 클래스를 쓰려면 하위 패키지도 따로 import 해야함
+        // 클래스의 전체 이름을 다 적어주는 방법을 꼭 사용해야 하는 경우가 하나 존재
+        // 서로 다른 패키지에 클래스명이 같은 클래스가 있는 경우
+        // import 한 후 클래스를 사용하면 어떤 패키지에 있는 클래스인지 구별할 수 없기 때문
+        Engine engine = new Engine();
+        PowerEngine pEngine = new PowerEngine();
+        hankook.Tire tire = new hankook.Tire();
+    }
+    public static void example18() {
+        // 접근 제한자
+        // public, protected, default, private 4가지가 있음
+        // public 은 모두 접근 가능, protected 는 같은 패키지, 자식 클래스만 접근 가능
+        // default 는 같은 패키지만 접근 가능, private 해당 클래스만 접근 가능
+        // public 과 default 는 클래스 접근 제한까지 설정할 수 있음
+
+        // 클래스 접근 제한
+        // A 는 default 접근 제한을 가져 타 패키지에서 접근이 불가해 에러 발생
+        // A a;
+        // B 는 public 접근 제한을 가져 import 만 하면 접근 가능
+        B b;
+
+        // 생성자 접근 제한
+        // public 접근 제한
+        B b1 = new B(true);
+        // default 접근 제한
+        // B b2 = new B(1); 같은 패키지거나 하위 클래스가 아니라서 에러
+        // private 접근 제한
+        // B b3 = new B("String"); 해당 클래스가 아니라서 에러
+
+        //팔드와 메소드 접근 제한
+        // public 접근 제한
+        b1.method1();
+        // default 접근 제한
+        // b1.method2(); 같은 패키지거나 하위 클래스가 아니라서 에러
+        // private 접근 제한
+        // b1.method3(); 해당 클래스가 아니라서 에러
+    }
+    public static void example19() {
+        // getter 와 setter
+        // 객체 외부에서 필드를 직접 접근하게 되면 객체의 무결성(결점이 없는 성질)이 깨질수 있음
+        // 가령 음수가 될수 없는 필드에 음수로 변경하는 행위
+        // 이런 문제를 해결하기 위해서 필드는 private 접근 제한으로 하고
+        // 메서드를 통해 필드값을 변경할 수 있도록 하는 방법을 선호
+        // 그 메서드가 getter 와 setter
+        // setter 는 값의 유효성을 검사 후 확인되면 필드에 값 저장하는 역할
+        // getter 는 필드값을 외부의 사용 용도에 맞취 가공해 반환하는 역할
+        // 외부에서는 setter 와 getter 로 필드값을 변경하고 불러옴
+        // 보통 getter, setter 는 필드명 앞에 get, set 을 붙여 메서드명을 만듬
+        // 반환값이 boolean 일 경우 getter 에 get 대신 is 를 붙임
+        Car myCar = new Car();
+
+        myCar.setCurrentSpeed(-50);
+        System.out.println("현재 속도: " + myCar.getCurrentSpeed());
+
+        myCar.setCurrentSpeed(60);
+
+        if(!myCar.isStop()) {
+            myCar.setStop(true);
+        }
+        System.out.println("현재 속도: " + myCar.getCurrentSpeed());
+    }
+    public static void example20() {
+        // 어노테이션
+        // 어노테이션은 메터데이터. 메타데이터는 코드를 어떻게 컴파일하고 처리할 것인지 알려주는 정보
+        // 어노테이션은 엘리먼트를 멤버로 가질수 있음. 이때 메서드를 작성하는 것처럼 ()를 붙여야함
+        // 어노테이션에 값을 적용할 때는 @어노테이션명(엘리먼트=값, 엘리먼트=값..)
+        // 기본 엘리면트 value() 를 주게 되면 엘리먼트 작성 없이 값만 적어도 알아서 적용됨
+        // 단 value() 말고 다른 엘리먼트에도 값을 적용해야 한다면 그땐 엘리면트를 작성해야 함
+        // 어노테이션이 적용될 대상을 지정할 때는 @Target 어노테이션 사용
+        // 여기에 적용된 대상만 어노테이션을 적용할 수 있음
+
+        // getDeclaredMethods() 메서드를 통해 Service class 안에 존재하는 메서드를
+        // Method 배열로 리턴
+        // 따라서 어노테이션이 적용된 메서드의 정보를 얻기 위해선 리턴타입이 Method[]
+        //[method1, method2, method3]
+        Method[] declaredMethods = Service.class.getDeclaredMethods();
+
+        // Method 배열을 반복문으로 돌림
+        for(Method method: declaredMethods) {
+            // isAnnotationPresent(어노테이션) 메서드는 해당 어노테이션이 적용됬는지 여부를
+            // boolean 값으로 반환
+            if(method.isAnnotationPresent(PrintAnnotation.class)) {
+                // getAnnotation(어노테이션) 메서드는 적용된 모든 어노테이션을 리턴한다
+                // 즉, printAnnotation 에는 순차적으로 method1, method2, method3 어노테이션이 대입
+                PrintAnnotation printAnnotation = method.getAnnotation(PrintAnnotation.class);
+                System.out.println("[" + method.getName() + "]");
+                for(int i=0; i<printAnnotation.number(); i++) {
+                    System.out.print(printAnnotation.value());
+                }
+                System.out.println();
+
+                try {
+                    method.invoke(new Service());
+                } catch (Exception e) {}
+                System.out.println();
+            }
+        }
     }
 }

@@ -7,6 +7,28 @@ public class Car {
     int maxSpeed = 350;
     int speed;
     int gas;
+    private int currentSpeed;
+    private boolean stop;
+    public int getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    public void setCurrentSpeed(int currentSpeed) {
+        if(currentSpeed < 0) {
+            this.currentSpeed = 0;
+            return;
+        }
+        this.currentSpeed = currentSpeed;
+    }
+
+    public boolean isStop() {
+        return stop;
+    }
+
+    public void setStop(boolean stop) {
+        this.stop = stop;
+        this.currentSpeed = 0;
+    }
     void setGas(int gas) {
         this.gas = gas;
     }

@@ -1,0 +1,5 @@
+package hankook;
+
+class A {
+
+}
