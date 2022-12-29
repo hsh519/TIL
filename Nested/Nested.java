@@ -6,6 +6,9 @@ public class Nested {
         example1();
         example2();
         exmaple3();
+        example4();
+        example5();
+        exmaple6();
     }
     public static void example1() {
         /*
@@ -74,18 +77,50 @@ public class Nested {
         Anonymous anony = new Anonymous();
         anony.field.wake();
         anony.method1();
+
+        // 매개값으로 익명 자식 객체 사용
         anony.method2( new Person() {
+            // 익명 자식 객체의 메서드
             void study() {
                 System.out.println("공부합니다.");
             }
 
+            // 부모 클래스의 메서드 오버라이딩
             @Override
             public void wake() {
                 System.out.println("8시에 일어납니다.");
                 study();
             }
         });
+        System.out.println();
     }
+    public static void example5() {
+        // 익명 구현 객체
+        Anonymous2 anony2 = new Anonymous2();
 
+        anony2.rc.turnOn();
+        anony2.rc.turnOff();
+        anony2.method();
 
+        // 매개값으로 익명 구현 객체 사용
+        anony2.method2(new RemoteControl() {
+            // 인터페이스의 추상 메서드를 구현한 실체 메서드
+            @Override
+            public void turnOn() {
+                System.out.println("SmartTV를 켭니다.");
+            }
+
+            @Override
+            public void turnOff() {
+                System.out.println("SmartTV를 끕니다.");
+            }
+        });
+        System.out.println();
+    }
+    public static void exmaple6() {
+        // 익명 객체의 로컬변수 사용
+        Anonymous3 anony3 = new Anonymous3();
+
+        anony3.method(0, 0);
+    }
 }
