@@ -1,10 +1,15 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 
+@Component
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
+    @Autowired //=ac.getBean(MemberRepository.class) 스프링 빈에서 MemberRepository 타입의 빈을 의존관계 자동 주입
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
@@ -17,5 +22,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
+    }
+    // 테스트 용
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
