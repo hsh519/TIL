@@ -1,21 +1,30 @@
-class Solution:
-    def removeDuplicateLetters(self, s: str) -> str:
-        tmp = 'z'
-        res = ""
+# 중복 문자 제거 - 리트코드 316
 
-        for alpha in s:
-            if(tmp > alpha):
-                tmp = alpha
-        
-        new_s = s[s.find(tmp):]
+def removeDuplicateLetters(s: str) -> str:
+    stack = []
+    res = ""
 
-        for alpha in new_s:
-            if(new_s.count(alpha) >= 2):
-                
-            else:
-                res += alpha
+    for index in range(len(s)):
+        alpha = []
 
-        return res
+        if(not stack):
+            stack.append(index)
+        else:
+            for i in stack:
+                alpha.append(s[i])
 
-solution = Solution()
-print(solution.removeDuplicateLetters("cbacdcbc"))
+            if(alpha.count(s[index])):
+                continue
+
+            while(s[stack[-1]] >= s[index] and s[index:].count(s[stack[-1]]) >= 1):
+                stack.pop()
+                if(not stack):
+                    break
+            stack.append(index)
+
+    for i in stack:
+        res += str(s[i])
+
+    return res
+
+print(removeDuplicateLetters("cbacdcbc"))
