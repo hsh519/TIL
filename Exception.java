@@ -4,10 +4,18 @@ import Interface.Taxi;
 
 public class Exception {
     public static void main(String[] args) {
-       example5();
+        example1();
+        example2();
+        example3();
+        example4();
+        example5();
         example6();
         example7();
         example8();
+        example9();
+        example10();
+          Exception e = new Exception();
+          e.example11();
     }
     /*
     에러와 예외
@@ -162,6 +170,55 @@ public class Exception {
             System.out.println("인덱스를 넘어섰거나 숫자로 변환할 수 없습니다.");
         } finally {
             System.out.println("다시 실행해주세요.");
+        }
+    }
+    public static void example10() {
+        // throw
+        try{
+            findClass();
+        } catch(ClassNotFoundException e) {
+            System.out.println("클래스가 존재하지 않습니다");
+        }
+    }
+    // forName 메서드에서 넘긴 예외를 findClass 가 호출된 곳으로 또 넘김
+    public static void findClass() throws ClassNotFoundException {
+        Class clazz = Class.forName("java.lang.String2");
+    }
+    public void example11() {
+        try{
+            Account a = new Account();
+            a.deposit(10000);
+            a.getBalance();
+            a.withdraw(20000);
+        } catch(Account.BalanceInsufficientException e) {
+            String message = e.getMessage();
+            System.out.println("message = " + message);
+            System.out.println();
+            e.printStackTrace();
+        }
+    }
+    public class Account {
+        private long balance;
+        public Account() {}
+        public long getBalance() {
+            return balance;
+        }
+        public void deposit(int money) {
+            balance += money;
+        }
+        // 사용자 정의 예외 발생
+        public void withdraw(int money) throws BalanceInsufficientException {
+            if(balance < money) {
+                throw new BalanceInsufficientException("잔고가" + (money - balance) + "원 부족");
+            }
+        }
+        // 사용자 정의 예외 클래스
+        public class BalanceInsufficientException extends RuntimeException {
+            // 예외 메세지 없이 객체 생성하는 생성자와 에외 메세지를 포함해 객체 생성하는 생성자
+            public BalanceInsufficientException() {}
+            public BalanceInsufficientException(String message) {
+                super(message);
+            }
         }
     }
 }
