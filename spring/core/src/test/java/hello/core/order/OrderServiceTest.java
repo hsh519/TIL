@@ -27,6 +27,6 @@ public class OrderServiceTest {
 
         //then
         Assertions.assertThat(order);
-        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
+        Assertions.assertThat(order.getDiscountPrice()).isEqualTo(2000);
     }
 }
