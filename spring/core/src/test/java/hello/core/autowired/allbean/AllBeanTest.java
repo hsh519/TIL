@@ -54,8 +54,6 @@ public class AllBeanTest {
         }
 
         public int discount(Member member, int price, String DiscountCode) {
-            // 사용자가 적용한 할인률 -> DiscountCode
-            // DiscountCode 를 키 값으로 해서 Map 에서 키에 해당하는 값의 할인 정책을 적용할 수 있다.
             DiscountPolicy discountPolicy = policyMap.get(DiscountCode);
             return discountPolicy.discount(member, price);
         }
