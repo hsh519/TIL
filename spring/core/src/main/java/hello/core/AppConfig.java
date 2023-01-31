@@ -11,7 +11,7 @@ import hello.core.order.OrderServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// @COnfiguration -> 바이트코드를 조작하는 CGLIB 기술을 사용해서 싱글톤을 보장해주는 어노테이션. 없어도 빈 등록 가능.
+// @Configuration -> 바이트코드를 조작하는 CGLIB 기술을 사용해서 싱글톤을 보장해주는 어노테이션. 없어도 빈 등록 가능.
 @Configuration
 public class AppConfig { // 팩토리 방식의 스프링 빈 설  -> BeanClassName(x) FactoryBeanName, FactoryMethodName(o)
     @Bean
