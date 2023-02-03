@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/jpashop
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver #
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+  #      show_sql: true
+        format_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  # SQL 실행 파라미터를 로그에 남긴다 -> [n] 은 [자료형] - [값] 형식으로 n개의 문장
+  # 디버그 형태(?, ?) 로 보고싶다면 쿼리 파라미터를 로그로 찍어주는 외부 라이브러리 사용
+  org.hibernate.type: trace
+
+server:
+  port: 8081
