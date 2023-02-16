@@ -14,7 +14,7 @@ public class ResponseHeaderServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 숫자 200 대신 정의돼있는 상수로 사용. [status-line]
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.setStatus(HttpServletResponse.SC_OK);
 
         // [response-headers]
         response.setHeader("Content-Type", "text/plain;charset=UTF-8");
