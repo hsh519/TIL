@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<!--타임리프 사용 선언-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+<!--  @{} -> URL 링크 표현식-->
+  <link th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+  <div class="py-5 text-center">
+    <h2>상품 목록</h2> </div>
+  <div class="row">
+    <div class="col">
+<!--      || -> 리터럴 대체 문법-->
+      <button class="btn btn-primary float-end" onclick="location.href='addForm.html'" th:onclick="|location.href='@{/basic/items/add}'|" type="button">상품
+        등록</button> </div>
+  </div>
+  <hr class="my-4">
+  <div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>상품명</th> <th>가격</th> <th>수량</th>
+      </tr>
+      </thead>
+      <tbody>
+<!--      each -> 타임리프 반복 출력. text -> 내용 변경. ${} -> 변수 표현식-->
+      <tr th:each="item: ${items}">
+<!--        {.../itemId}(itemId=${item.id}) -> 경로 변수 지정. 쿼리 파라미터도 생성 가능-->
+        <td><a th:href="@{/basic/items/{itemId}(itemId=${item.id})}" href="../../static/html/item.html" th:text="${item.id}">회원 id</a></td>
+        <td><a th:href="@{/basic/items/{itemId}(itemId=${item.id})}" href="../../static/html/item.html" th:text="${item.itemName}">상품명</a></td>
+        <td th:text="${item.price}">상품 가격</td>
+        <td th:text="${item.quantity}">상품 수량</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- /container -->
+</body>
+</html>
