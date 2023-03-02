@@ -30,8 +30,8 @@
 <!--      each -> 타임리프 반복 출력. text -> 내용 변경. ${} -> 변수 표현식-->
       <tr th:each="item: ${items}">
 <!--        {.../itemId}(itemId=${item.id}) -> 경로 변수 지정. 쿼리 파라미터도 생성 가능-->
-        <td><a th:href="@{/basic/items/{itemId}(itemId=${item.id})}" href="../../static/html/item.html" th:text="${item.id}">회원 id</a></td>
-        <td><a th:href="@{/basic/items/{itemId}(itemId=${item.id})}" href="../../static/html/item.html" th:text="${item.itemName}">상품명</a></td>
+        <td><a th:href="@{/basic/items/{itemId}(itemId=${item.id})}" href="item.html" th:text="${item.id}">회원 id</a></td>
+        <td><a th:href="@{/basic/items/{itemId}(itemId=${item.id})}" href="item.html" th:text="${item.itemName}">상품명</a></td>
         <td th:text="${item.price}">상품 가격</td>
         <td th:text="${item.quantity}">상품 수량</td>
       </tr>
