@@ -1,4 +1,4 @@
-package hello.thymeleaf;
+package hello.thymeleaf.basic;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
