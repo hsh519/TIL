@@ -1,23 +1,58 @@
 package hello.itemservice.web.basic;
 
+import hello.itemservice.domain.DeliveryCode;
 import hello.itemservice.domain.Item;
 import hello.itemservice.domain.ItemRepository;
+import hello.itemservice.domain.ItemType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/basic/items")
 @RequiredArgsConstructor
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
+
+    // 상품 조회, 상품 수정등에도 같은 코드가 계속 사용
+    // ModelAttribute("이름") 어노테이션 메서드에 사용하면 해당 메서드를 실행해 리턴되는 결과값을
+    // 해당 컨트롤러가 호출될 때 자동으로 model.addAttribute("이름", 결과값) 코드를 수행해 model에 담긴다
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
+        // 순서 보장을 위해 LinkedHashMap 사용
+        Map<String, String> regions = new LinkedHashMap<>();
+        regions.put("SEOUL", "서울");
+        regions.put("BUSAN", "부산");
+        regions.put("JEJU", "제주");
+
+       return regions;
+    }
+
+    @ModelAttribute("itemTypes")
+    public ItemType[] itemTypes() {
+        return ItemType.values();
+    }
+
+    @ModelAttribute("deliveryCodes")
+    public List<DeliveryCode> deliveryCodes() {
+        List<DeliveryCode> deliveryCodes = new ArrayList<>();
+        deliveryCodes.add(new DeliveryCode("FAST", "빠른 배송"));
+        deliveryCodes.add(new DeliveryCode("NORMAL", "보통 배송"));
+        deliveryCodes.add(new DeliveryCode("SLOW", "느린 배송"));
+
+        return deliveryCodes;
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -35,7 +70,8 @@ public class BasicItemController {
     }
 
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        model.addAttribute("item", new Item());
         return "basic/addForm";
     }
 
@@ -89,6 +125,11 @@ public class BasicItemController {
     // 만약 item.getId()가 한글이라면 원하는 URL로 이동 불가. 따라서 RedirectAttributes 사용
     @PostMapping("/add")
     public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+        log.info("item.open={}", item.getOpen());
+        log.info("item.region={}", item.getRegions());
+        log.info("item.itemtype={}", item.getItemtype());
+        log.info("item.deliveryCode={}", item.getDeliveryCode());
+
         itemRepository.save(item);
         // 사용하지 않은 redirectAttributes 속성은 쿼리 파라미터로 넘어간다
         redirectAttributes.addAttribute("itemId", item.getId());
