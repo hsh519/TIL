@@ -8,14 +8,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -24,6 +27,14 @@ import java.util.Map;
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
+
+    // WebDataBinder는 스프링의 파라미터 바인딩과 검증을 해준다
+    @InitBinder // 해당 컨트롤러에만 영향을 준다는 뜻을 가진 어노테이션
+    public void init(WebDataBinder dataBinder) {
+        // WebDataBinder에 검증기 추가. 컨트롤러에서 검증기 자동 적용
+        dataBinder.addValidators(itemValidator);
+    }
 
     // 상품 조회, 상품 수정등에도 같은 코드가 계속 사용
     // ModelAttribute("이름") 어노테이션 메서드에 사용하면 해당 메서드를 실행해 리턴되는 결과값을
@@ -124,11 +135,19 @@ public class BasicItemController {
     // + item.getId() 처럼 URL에 변수를 더해 사용하는 것은 인코딩이 안돼 위험
     // 만약 item.getId()가 한글이라면 원하는 URL로 이동 불가. 따라서 RedirectAttributes 사용
     @PostMapping("/add")
-    public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
-        log.info("item.open={}", item.getOpen());
-        log.info("item.region={}", item.getRegions());
-        log.info("item.itemtype={}", item.getItemtype());
-        log.info("item.deliveryCode={}", item.getDeliveryCode());
+    // BindingResult의 위치는 @ModelAttribute 어노테이션이 있는 객체 뒤에 배치
+    // 컨트롤러를 호출하기 전 Item 객체에 바인딩 할 때 타입 오류가 발생하면 FieldError 객체(거부된 값이 포함된 생성자 사용)를 생성해 bindingResult 에 담고 컨트롤러를 호출
+    // 검증기를 사용하기 위해서 @Validated 어노테이션 추가. WebDataBinder에 추가한 여러 검증기중 supports() 의 반환값으로 true를 얻은 검증기의 validate() 실행
+    public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        // v5 -> itemValidator를 주입받아 사용
+        // if(itemValidator.supports(item.getClass())) {
+        //     itemValidator.validate(item, bindingResult);
+        // }
+
+        log.info("errors={}", bindingResult);
+        if(bindingResult.hasErrors()) {
+            return "/basic/addForm";
+        }
 
         itemRepository.save(item);
         // 사용하지 않은 redirectAttributes 속성은 쿼리 파라미터로 넘어간다

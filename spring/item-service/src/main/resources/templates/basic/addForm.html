@@ -7,27 +7,47 @@
     <style>
         .container {
             max-width: 560px;
-        } </style>
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="py-5 text-center">
         <h2 th:text="#{page.addItem}">상품 등록 폼</h2> </div>
     <h4 class="mb-3" th:text="#{page.inputItem}">상품 입력</h4>
+
     <!-- th:action 비우면 현재 URL에 POST -->
     <form action="item.html" th:action method="post" th:object="${item}">
+        <!-- ?. -> errors 가 null일 때 NullPointerException 대신 null을 반환 -->
+        <div class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류</div>
         <div>
             <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
             <!-- th:field 는 id, name, value 속성을 자동으로 처리 -->
             <!-- *{} 은 선택 변수식으로 th:object 에 등록된 객체에 접근 -->
             <!-- <input type="text" id="itemName" name="itemName" value="" class="form-control" placeholder="이름을 입력하세요"> </div> -->
-            <input type="text" id="itemName" th:field="*{itemName}" class="form-control" placeholder="이름을 입력하세요"> </div>
+            <!-- classappend 사용. 클래스를 더하는 기능. 상황에 따라 더할 필요가 없다면 '_' 작성 -->
+            <!-- th:field 는 정상 상황에서는 모델 객체의 값을 사용하지만, 오류가 발생하면 FieldError 에 보관한 값을 사용 -->
+            <!-- 정상 상황 -> item, 오류 -> bindingResult !-->
+            <input type="text" id="itemName" th:field="*{itemName}"
+                   th:errorclass="'field-error'" class="form-control" placeholder="이름을 입력하세요"> </div>
+            <div class="field-error" th:errors="*{itemName}">상품명 오류</div>
         <div>
+            <!-- classappend 사용X -->
             <label for="price" th:text="#{label.item.price}">가격</label>
-            <input type="text" id="price" th:field="*{price}" class="form-control" placeholder="가격을 입력하세요">
-        </div> <div>
+            <input type="text" id="price" th:field="*{price}"
+                   th:errorclass="'field-error'" class="form-control" placeholder="가격을 입력하세요">
+            <div class="field-error" th:errors="*{price}">가격 오류</div>
+        </div>
+        <div>
         <label for="quantity" th:text="#{label.item.quantity}">수량</label>
-        <input type="text" id="quantity" th:field="*{quantity}" class="form-control" placeholder="수량을 입력하세요"> </div>
+        <input type="text" id="quantity" th:field="*{quantity}"
+               th:errorclass="'field-error'" class="form-control" placeholder="수량을 입력하세요">
+        <div class="field-error" th:errors="*{quantity}">수량 오류</div>
+        </div>
 
         <hr class="my-4">
         <!-- single checkbox -->
