@@ -27,14 +27,14 @@ import java.util.*;
 public class BasicItemController {
 
     private final ItemRepository itemRepository;
-    private final ItemValidator itemValidator;
-
-    // WebDataBinder는 스프링의 파라미터 바인딩과 검증을 해준다
-    @InitBinder // 해당 컨트롤러에만 영향을 준다는 뜻을 가진 어노테이션
-    public void init(WebDataBinder dataBinder) {
-        // WebDataBinder에 검증기 추가. 컨트롤러에서 검증기 자동 적용
-        dataBinder.addValidators(itemValidator);
-    }
+//    private final ItemValidator itemValidator;
+//
+//    // WebDataBinder는 스프링의 파라미터 바인딩과 검증을 해준다
+//    @InitBinder // 해당 컨트롤러에만 영향을 준다는 뜻을 가진 어노테이션
+//    public void init(WebDataBinder dataBinder) {
+//        // WebDataBinder에 검증기 추가. 컨트롤러에서 검증기 자동 적용
+//        dataBinder.addValidators(itemValidator);
+//    }
 
     // 상품 조회, 상품 수정등에도 같은 코드가 계속 사용
     // ModelAttribute("이름") 어노테이션 메서드에 사용하면 해당 메서드를 실행해 리턴되는 결과값을

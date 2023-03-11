@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 
 // 검증 로직은 컨트롤러에 작성하면 하나의 컨트롤러가 너무 많은 기능을 담당
 // 따라서 검증 로직은 다른 클래스를 생성해서 작성하는 것이 좋다
-@Component
+//@Component
 public class ItemValidator implements Validator {
 
     // 해당 검증기를 해당 클래스가 지원하는지 여부

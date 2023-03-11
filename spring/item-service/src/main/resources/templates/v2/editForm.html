@@ -8,27 +8,37 @@
     .container {
       max-width: 560px;
     }
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <div class="py-5 text-center" th:text="#{page.updateItem}"> <h2>상품 수정 폼</h2>
+  <div class="py-5 text-center" th:text="#{page.updateItem}">
+    <h2>상품 수정 폼</h2>
   </div>
+
   <form action="item.html" th:action method="post" th:object="${item}">
+    <div class="field-error" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     <div>
       <label for="id" th:text="#{label.item.id}">상품 ID</label>
       <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
     </div>
     <div>
       <label for="itemName" th:text="#{label.item.itemName}">상품명</label>
-      <input type="text" id="itemName" th:field="*{itemName}" class="form-control">
+      <input type="text" id="itemName" th:field="*{itemName}" th:errorclass="field-error" class="form-control">
+      <div class="field-error" th:errors="*{itemName}"></div>
     </div>
     <div>
     <label for="price" th:text="#{label.item.price}">가격</label>
-    <input type="text" id="price" th:field="*{price}" class="form-control">
+    <input type="text" id="price" th:field="*{price}" th:errorclass="field-error" class="form-control">
+    <div class="field-error" th:errors="*{price}"></div>
   </div> <div>
     <label for="quantity" th:text="#{label.item.quantity}">수량</label>
-    <input type="text" id="quantity" th:field="*{quantity}" class="form-control">
+    <input type="text" id="quantity" th:field="*{quantity}" th:errorclass="field-error" class="form-control">
+    <div class="field-error" th:errors="*{quantity}"></div>
   </div>
     <hr class="my-4">
     <!-- single checkbox -->
@@ -77,7 +87,7 @@
       </div>
       <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"
-                onclick="location.href='item.html'" th:onclick="|location.href='@{/basic/items/{itemId}(itemId=${item.id})}'|" type="button" th:text="#{button.cancel}">취소</button> </div>
+                onclick="location.href='item.html'" th:onclick="|location.href='@{/v2/items/{itemId}(itemId=${item.id})}'|" type="button" th:text="#{button.cancel}">취소</button> </div>
     </div>
   </form>
 </div> <!-- /container -->
