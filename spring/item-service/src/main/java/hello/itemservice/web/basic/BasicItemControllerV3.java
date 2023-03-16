@@ -1,13 +1,14 @@
 package hello.itemservice.web.basic;
 
 import hello.itemservice.domain.*;
+import hello.itemservice.web.basic.form.ItemSaveForm;
+import hello.itemservice.web.basic.form.ItemUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,9 +20,9 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/v2/items")
+@RequestMapping("/v3/items")
 @RequiredArgsConstructor
-public class BasicItemControllerV2 {
+public class BasicItemControllerV3 {
 
     private final ItemRepository itemRepository;
 
@@ -55,7 +56,7 @@ public class BasicItemControllerV2 {
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
-        return "v2/items";
+        return "v3/items";
     }
 
     @GetMapping("/{itemId}")
@@ -63,33 +64,42 @@ public class BasicItemControllerV2 {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
 
-        return "v2/item";
+        return "v3/item";
     }
 
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("item", new Item());
-        return "v2/addForm";
+        return "v3/addForm";
     }
 
     @PostMapping("/add")
-    public String addItem(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-        if(item.getPrice() != null && item.getQuantity() != null) {
-            if(item.getPrice() * item.getQuantity() < 10000) {
+        if(form.getPrice() != null && form.getQuantity() != null) {
+            if(form.getPrice() * form.getQuantity() < 10000) {
                 bindingResult.reject("totalPriceMin", new Object[]{10000}, null);
             }
         }
 
         log.info("errors={}", bindingResult);
         if(bindingResult.hasErrors()) {
-            return "/v2/addForm";
+            return "/v3/addForm";
         }
 
-        itemRepository.save(item);
-        redirectAttributes.addAttribute("itemId", item.getId());
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
+        item.setOpen(form.getOpen());
+        item.setRegions(form.getRegions());
+        item.setItemtype(form.getItemtype());
+        item.setDeliveryCode(form.getDeliveryCode());
+
+        Item saveItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", saveItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/v2/items/{itemId}";
+        return "redirect:/v3/items/{itemId}";
     }
 
     @GetMapping("/{userId}/edit")
@@ -97,24 +107,33 @@ public class BasicItemControllerV2 {
         Item item = itemRepository.findById(userId);
         model.addAttribute("item", item);
 
-        return "v2/editForm";
+        return "v3/editForm";
     }
 
     @PostMapping("/{userId}/edit")
-    public String editItem(@Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult, @PathVariable long userId) {
-        if(item.getPrice() != null && item.getQuantity() != null) {
-            if(item.getPrice() * item.getQuantity() < 10000) {
+    public String editItem(@Validated @ModelAttribute("item") ItemUpdateForm form, BindingResult bindingResult, @PathVariable long userId) {
+        if(form.getPrice() != null && form.getQuantity() != null) {
+            if(form.getPrice() * form.getQuantity() < 10000) {
                 bindingResult.reject("totalPriceMin", new Object[]{10000}, null);
             }
         }
 
         if(bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
-            return "/v2/editForm";
+            return "/v3/editForm";
         }
 
-        itemRepository.update(userId, item);
-        return "redirect:/v2/items/{userId}";
+        Item itemParam = new Item();
+        itemParam.setItemName(form.getItemName());
+        itemParam.setPrice(form.getPrice());
+        itemParam.setQuantity(form.getQuantity());
+        itemParam.setOpen(form.getOpen());
+        itemParam.setRegions(form.getRegions());
+        itemParam.setItemtype(form.getItemtype());
+        itemParam.setDeliveryCode(form.getDeliveryCode());
+
+        itemRepository.update(userId, itemParam);
+        return "redirect:/v3/items/{userId}";
     }
 
     // 테스트 아이템

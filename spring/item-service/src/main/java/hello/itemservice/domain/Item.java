@@ -18,15 +18,15 @@ public class Item {
     // Bean Validation의 한계
     // 같은 필드로 다른 검증을 하면 충돌이 생길수 있다.
     // ex) 수정할 때 id가 필수값이라서 @NotNull 어노테이션을 붙이면 등록할 때 id를 입력하지 않아 등록이 불가
-    @NotNull
+//    @NotNull(groups = UpdateCheck.class)
     private long id;
-    @NotBlank
+//    @NotBlank(groups = {SaveCheck.class, UpdateCheck.class})
     private String itemName;
-    @NotNull
-    @Range(min = 1000, max = 1000000)
+//    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+//    @Range(min = 1000, max = 1000000, groups = {SaveCheck.class, UpdateCheck.class})
     private Integer price;
-    @NotNull
-//    @Max(9999)
+//    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+//    @Max(value = 9999, groups = SaveCheck.class)
     private Integer quantity;
 
     private Boolean open; // 판매 여부
