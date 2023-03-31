@@ -1,3 +1,5 @@
+package LV0;
+
 public class 가장_큰_수_찾기 {
     public int[] solution(int[] array) {
         int[] answer = {array[0], 0};

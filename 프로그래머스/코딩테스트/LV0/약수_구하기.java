@@ -1,3 +1,5 @@
+package LV0;
+
 import java.util.Arrays;
 
 public class 약수_구하기 {

@@ -1,3 +1,5 @@
+package LV0;
+
 import java.util.ArrayList;
 
 public class 잘라서_배열로_저장하기 {

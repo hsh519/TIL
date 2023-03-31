@@ -1,3 +1,5 @@
+package LV0;
+
 import java.util.Arrays;
 
 public class 문자열_정렬하기_2 {

@@ -1,3 +1,5 @@
+package LV0;
+
 public class _7의개수 {
     public int solution(int[] array) {
         int answer = 0;

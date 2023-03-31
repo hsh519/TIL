@@ -1,3 +1,5 @@
+package LV0;
+
 import java.util.Arrays;
 
 public class 연속된_수의_합 {

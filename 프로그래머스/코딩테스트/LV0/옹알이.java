@@ -1,3 +1,5 @@
+package LV0;
+
 public class 옹알이 {
     public int solution(String[] babbling) {
         int answer = 0;

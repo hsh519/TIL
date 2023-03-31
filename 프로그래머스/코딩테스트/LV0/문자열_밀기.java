@@ -1,3 +1,5 @@
+package LV0;
+
 import java.util.ArrayList;
 
 public class 문자열_밀기 {

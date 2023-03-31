@@ -1,3 +1,5 @@
+package LV0;
+
 import java.util.Arrays;
 
 public class n의_배수_고르기 {

@@ -1,3 +1,5 @@
+package LV0;
+
 public class 숫자찾기 {
     public int solution(int num, int k) {
         String s = Integer.toString(num);

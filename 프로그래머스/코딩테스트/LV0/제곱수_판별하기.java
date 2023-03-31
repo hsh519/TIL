@@ -1,3 +1,5 @@
+package LV0;
+
 public class 제곱수_판별하기 {
     public int solution(int n) {
         int answer = 2;

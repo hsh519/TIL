@@ -1,3 +1,5 @@
+package LV0;
+
 public class 문자열_계산하기 {
     public int solution(String my_string) {
         String[] arr = my_string.split(" ");
