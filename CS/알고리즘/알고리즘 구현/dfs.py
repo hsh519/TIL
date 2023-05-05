@@ -1,39 +1,26 @@
 # 깊이 우선 탐색
-graph = {
-    1: [2,3,4],
-    2: [5],
-    3: [5],
-    4: [],
-    5: [6,7],
-    6: [],
-    7: [3]
-}
 
-# 재귀 구조로 구현
-def recursive_dfs(v, discovered = []):
-    discovered.append(v)
-
+def dfs(graph, v, visited):
+    # 현재 노드 방문 처리
+    visited[v] = True
+    print(v, end=" ")
+    # 현재 노드와 인접한 다른 노드를 재귀적으로 방문
     for i in graph[v]:
-        if i not in discovered:
-            recursive_dfs(i, discovered)
-    return discovered
+        if not visited[i]:
+            dfs(graph, i, visited)
 
-recursive_res = recursive_dfs(1)
-print(recursive_res)
+graph = [
+    [],
+    [2,3,8],
+    [1,7],
+    [1,4,5],
+    [3,5],
+    [3,4],
+    [7],
+    [2,6,8],
+    [1,7]
+]
 
-# 스택을 이용한 반복 구조로 구현
-def iterative_dfs(start_v):
-    discovered = []
-    stack = [start_v]
+visited = [False] * 9
 
-    while stack:
-        v = stack.pop()
-        if v not in discovered:
-            discovered.append(v)
-            for i in graph[v]:
-                stack.append(i)
-
-    return discovered
-
-iterative_res = iterative_dfs(1)
-print(iterative_res)
+dfs(graph, 1, visited)
