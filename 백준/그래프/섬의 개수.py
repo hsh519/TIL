@@ -1,27 +1,36 @@
-# 리트 코드 200번 - 섬의 개수
+import sys
+from collections import deque
 
-from pip import List
+def bfs(x, y):
+    visited[x][y] = True
+    l = [[-1,0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
+    q = deque()
+    q.append([x,y])
+    while q:
+        now = q.popleft()
+        for i in range(8):
+            nx = now[0] + l[i][0]
+            ny = now[1] + l[i][1]
+            if 0 <= nx < m and 0 <= ny < n:
+                if not visited[nx][ny] and mp[nx][ny] == 1:
+                    visited[nx][ny] = True
+                    q.append([nx,ny])
 
-class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        def dfs(i,j):
-            if(grid[i][j] == "1"):
-                grid[i][j] = 0
-                if(j != len(grid[i])-1):
-                    dfs(i, j+1)
-                if(i != len(grid) - 1):
-                    dfs(i+1, j)
-                if(i != 0):
-                    dfs(i-1, j)
-                if(j != 0):
-                    dfs(i, j-1)
+while True:
+    n, m = map(int,sys.stdin.readline().rsplit())
+    visited = [[False] * n for _ in range(m)]
+    mp = []
+    answer = 0
+    if n == 0 and m == 0:
+        break
 
-        count = 0
+    for i in range(m):
+        mp.append(list(map(int, sys.stdin.readline().rsplit())))
+            
+    for i in range(m):
+        for j in range(n):
+            if not visited[i][j] and mp[i][j] == 1:
+                answer += 1
+                bfs(i, j)
 
-        for i in range(len(grid)):
-            for j in range(len(grid[i])):
-                if(grid[i][j] == "1"):
-                    dfs(i, j)
-                    count += 1     
-        return count
-
+    print(answer)
