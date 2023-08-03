@@ -1,5 +1,6 @@
 package com.example.exhellojpa.entity;
 
+import com.example.exhellojpa.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,9 @@ class MemberTest {
 
     @Autowired
     EntityManager em;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     void 저장() {
@@ -46,5 +50,28 @@ class MemberTest {
             System.out.println("member = " + member);
             System.out.println("member.Team = " + member.getTeam());
         }
+    }
+
+    @Test
+    @Rollback(value = false)
+    void JpaEventBaseEntity() throws InterruptedException {
+        // given
+        Member member = Member.createMember("member1", 23);
+        memberRepository.save(member); //prePersist
+
+        Thread.sleep(3000);
+        member.setUsername("member2");
+
+        em.flush(); // preUpdate
+        em.clear();
+
+        // when
+        Member findMember = memberRepository.findById(member.getId()).get();
+
+        // then
+        System.out.println("create = " + findMember.getCreateDate());
+        System.out.println("update = " + findMember.getLastModifiedDate());
+
+
     }
 }
