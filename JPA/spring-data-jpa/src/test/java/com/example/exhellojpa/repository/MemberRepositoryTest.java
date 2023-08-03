@@ -1,14 +1,13 @@
 package com.example.exhellojpa.repository;
 
 import com.example.exhellojpa.dto.MemberDto;
+import com.example.exhellojpa.dto.UsernameOnlyDto;
 import com.example.exhellojpa.entity.Member;
 import com.example.exhellojpa.entity.Team;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -228,7 +227,6 @@ class MemberRepositoryTest {
     }
 
     @Test
-    @Rollback(false)
     void lock() {
         Member member = Member.createMember("AAA", 10);
         repository.save(member);
@@ -241,5 +239,77 @@ class MemberRepositoryTest {
     @Test
     public void CallCustom() {
         List<Member> members = repository.findMemberCustom();
+    }
+
+    @Test
+    @Rollback(false)
+    void queryByExample() {
+        Team teamA = Team.createTeam("teamA");
+        teamRepository.save(teamA);
+
+        Member memberA = Member.createMember("AAA", 23, teamA);
+        Member memberB = Member.createMember("BBB", 22, teamA);
+        repository.save(memberA);
+        repository.save(memberB);
+
+        em.flush();
+        em.clear();
+
+        Member member = new Member("AAA");
+        Team team = new Team("teamA");
+        member.setTeam(team);
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                .withIgnorePaths("age");
+
+        Example<Member> example = Example.of(member, exampleMatcher);
+
+        List<Member> members = repository.findAll(example);
+
+        assertThat(members.get(0).getUsername()).isEqualTo("AAA");
+
+    }
+
+    @Test
+    void projections() {
+        Team teamA = Team.createTeam("teamA");
+        teamRepository.save(teamA);
+
+        Member memberA = Member.createMember("AAA", 23, teamA);
+        Member memberB = Member.createMember("BBB", 22, teamA);
+        repository.save(memberA);
+        repository.save(memberB);
+
+        em.flush();
+        em.clear();
+
+        List<NestedClosedProjections> result = repository.findProjectionsByUsername("AAA", NestedClosedProjections.class);
+
+        for (NestedClosedProjections nestedClosedProjections : result) {
+            System.out.println("nestedClosedProjections = " + nestedClosedProjections);
+        }
+    }
+
+    @Test
+    void nativeQuery() {
+        Team teamA = Team.createTeam("teamA");
+        teamRepository.save(teamA);
+
+        Member memberA = Member.createMember("AAA", 23, teamA);
+        Member memberB = Member.createMember("BBB", 22, teamA);
+        repository.save(memberA);
+        repository.save(memberB);
+
+        em.flush();
+        em.clear();
+
+
+        Page<MemberProjection> result = repository.findByNativeProjection(PageRequest.of(0, 10));
+        List<MemberProjection> content = result.getContent();
+
+        for (MemberProjection memberProjection : content) {
+            System.out.println("memberProjection.getUsername() = " + memberProjection.getUsername());
+            System.out.println("memberProjection.getTeamName() = " + memberProjection.getTeamName());
+        }
     }
 }

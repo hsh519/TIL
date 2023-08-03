@@ -1,6 +1,7 @@
 package com.example.exhellojpa.repository;
 
 import com.example.exhellojpa.dto.MemberDto;
+import com.example.exhellojpa.dto.UsernameOnlyDto;
 import com.example.exhellojpa.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,4 +51,16 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Member> findLockByUsername(String username);
+
+    <T> List<T> findProjectionsByUsername(@Param("username") String username, Class<T> type);
+
+    @Query(value = "select * from member where username = ?", nativeQuery = true)
+    Member findByNativeQuery(String username);
+
+    // 네이티브 쿼리 -> 프로젝션 + 네이티브 쿼리일 때 그나마 활용
+    @Query(value = "select m.member_id as id, m.username, t.name as teamName "+
+            "from Member as m left join team t",
+            countQuery = "select count(*) from member",
+            nativeQuery = true)
+    Page<MemberProjection> findByNativeProjection(Pageable pageable);
 }
