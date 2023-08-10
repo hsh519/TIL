@@ -77,8 +77,7 @@
 - [고급 매핑](https://hsh519.tistory.com/109)
 - [프록시와 연관관계 관리](https://hsh519.tistory.com/111)
 - [값 타입](https://hsh519.tistory.com/110)
-- [객체지향 쿼리와 언어 JPQL (1)](https://hsh519.tistory.com/112)
-- [객체지향 쿼리와 언어 JPQL (2)](https://hsh519.tistory.com/113)
+- [객체지향 쿼리와 언어 JPQL](https://hsh519.tistory.com/112)
 - [Spring Data JPA와 쿼리 메서드 기능](https://hsh519.tistory.com/115)
 
 ### 알고리즘
