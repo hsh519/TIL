@@ -1,4 +1,10 @@
-# TIL
+# Today I Learned
+
+- 하루 동안 공부한 내용, 경험한 내용을 기록하며 꾸준히 성장하는 개발자기 되기 위함입니다.
+- TIL이라고 해서 1일 1커밋에 집착하지 않습니다.
+- 일정, 컨디션에 따라 쉬는 날에는 푹 쉬고 공부 할 떄는 집중해서 합니댜.
+- 2023.08.09일 이후부터 작성하는 블로그는 마크다운을 사용하지 않고 리드미에 링크만 걸어둡니다.
+- 출처는 반드시 작성합니다.
 
 ## 분류
 
@@ -59,3 +65,34 @@
 - [정규화](https://hsh519.tistory.com/86)
 - [트랜잭션](https://hsh519.tistory.com/29)
 - [보안과 권환 관리](https://hsh519.tistory.com/87)
+
+### JPA
+
+- [SQL 중심적인 개발의 문제점](https://hsh519.tistory.com/85)
+- [JPA 소개](https://hsh519.tistory.com/90)
+- [영속성 관리](https://hsh519.tistory.com/91)
+- [엔티티 매핑](https://hsh519.tistory.com/93)
+- [연관관계 매핑 기초](https://hsh519.tistory.com/95)
+- [다양한 연관관계 매핑](https://hsh519.tistory.com/108)
+- [고급 매핑](https://hsh519.tistory.com/109)
+- [프록시와 연관관계 관리](https://hsh519.tistory.com/111)
+- [값 타입](https://hsh519.tistory.com/110)
+- [객체지향 쿼리와 언어 JPQL (1)](https://hsh519.tistory.com/112)
+- [객체지향 쿼리와 언어 JPQL (2)](https://hsh519.tistory.com/113)
+- [Spring Data JPA와 쿼리 메서드 기능](https://hsh519.tistory.com/115)
+
+### 알고리즘
+
+- [비트마스킹](https://hsh519.tistory.com/97)
+- [트리 순회](https://hsh519.tistory.com/82)
+- [DFS/BFS/백트래킹](https://hsh519.tistory.com/79)
+- [기타 그래프 이론](https://hsh519.tistory.com/77)
+
+### 운영체제
+
+- [운영체제의 개요](https://hsh519.tistory.com/92)
+- [컴퓨터의 구조와 성능 향상](https://hsh519.tistory.com/96)
+
+### DevOps
+
+- [도커란?](https://hsh519.tistory.com/100)
