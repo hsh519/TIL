@@ -1,0 +1,68 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Application configuration ###
+application.yml
+
+### Build ###
+target/
+build/
+*.jar
+*.war
+
+### Static resources ###
+/src/main/resources/static/
+/src/main/resources/public/
+
+# Logs
+*.log
+
+### macOS ###
+.DS_Store
+
+# Maven Wrapper
+mvnw
+mvnw.cmd
+/.mvn/
+
+# IntelliJ IDEA Modules
+/.idea_modules/
+
+# Gradle and Maven build files
+/build.gradle.kts
+/pom.xml
