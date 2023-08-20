@@ -83,6 +83,7 @@
 - [Spring Data JPA의 확장 기능](https://hsh519.tistory.com/117)
 - [Spring Data JPA 분석](https://hsh519.tistory.com/118)
 - [Spring Data JPA의 나머지 기능들](https://hsh519.tistory.com/120)
+- [Querydsl 기본 문법](https://hsh519.tistory.com/121)
 
 ### 알고리즘
 
