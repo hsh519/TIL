@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+</head>
+<body>
+<h1>회원가입 페이지</h1>
+<hr />
+<form action="/join" method="post" th:object="${member}">
+  <input type="text" th:field="*{username}" placeholder="Username" /> <br/>
+  <input type="password" th:field="*{password}" placeholder="Password" /> <br/>
+  <input type="email" th:field="*{email}" placeholder="Email" /> <br/>
+  <button>회원가입</button>
+</form>
+</body>
+</html>
