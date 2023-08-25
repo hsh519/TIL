@@ -1,5 +1,6 @@
 package com.cos.security1.controller;
 
+import com.cos.security1.config.PrincipalDetails;
 import com.cos.security1.model.LoginForm;
 import com.cos.security1.model.Member;
 import com.cos.security1.repository.MemberRepository;
@@ -8,8 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,33 @@ public class IndexController {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+
+    /**
+     * Authentication -> 현재 인증된 사용자의 인증 정보와 권한을 가진 객체
+     * getPrincipal() -> Authentication 객체에서 사용자의 주체 정보를 반환. 반환형이 Object이므로 UserDetails로 다운케스팅
+     * UserDetails를 상속한 PrincipalDetails로도 당연히 다운캐스팅 가능
+     * @AuthenticationPrincipal ->  Authentication + getPrincipal() 한 후 파라미터에 바인딩 해주는 어노테이션
+     */
+    @GetMapping("/test/login")
+    @ResponseBody
+    public String testLogin(Authentication authentication,
+                            @AuthenticationPrincipal PrincipalDetails userDetails) {
+        System.out.println("/test/login ==================== ");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("principalDetails = " + principalDetails.getMember());
+        System.out.println("userDetails = " + userDetails.getMember());
+        return "세션 정보 확인하기";
+    }
+
+    // 과정은 위와 동일하지만 차이점은 OAuth로 로그인할 경우 OAuth2User 타입으로 다운 캐스팅
+    @GetMapping("/test/oauth/login")
+    @ResponseBody
+    public String testOauthLogin(@AuthenticationPrincipal OAuth2User oAuth2User) {
+        System.out.println("/test/oauth/login ==================== ");
+        System.out.println("oAuth2User = " + oAuth2User.getAttributes());
+        return "OAuth 세션 정보 확인하기";
+    }
+
     @GetMapping({"", "/"})
     public String index() {
         return "index";
@@ -33,11 +62,8 @@ public class IndexController {
 
     @ResponseBody
     @GetMapping("/user")
-    public String user() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // SecurityContextHolder으로 회원정보 가져오기
-        log.info("name = {}", authentication.getName()); // 로그인한 회원 이름
-        log.info("isAuthentication = {}", authentication.isAuthenticated()); // 인증 여부
-
+    public String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails = " + principalDetails.getMember());
         return "user";
     }
 
@@ -52,6 +78,7 @@ public class IndexController {
     public String manager() {
         return "manager";
     }
+
     /**
      * 이 경우 스프링 시큐리티가 로그인을 빼앗아 간다.
      * SecurityConfig 파일 설정 -> 더 이상 빼앗아가지 않는다.

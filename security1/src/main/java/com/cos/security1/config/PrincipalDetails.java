@@ -1,13 +1,14 @@
-package com.cos.security1.config.auth;
+package com.cos.security1.config;
 
 import com.cos.security1.model.Member;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * 시큐리티가 /login 주소 요청을 낚아채서 로그인을 진행
@@ -18,10 +19,22 @@ import java.util.Collection;
  * 회원 정보의 타입 -> UserDetails 타입 객체
  */
 
-@RequiredArgsConstructor
-public class PrincipalDetails implements UserDetails {
+@Getter
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private final Member member;
+    private Map<String, Object> attributes;
+
+    // 일반 로그인 생성자
+    public PrincipalDetails(Member member) {
+        this.member = member;
+    }
+
+    // OAuth 로그인 생성자
+    public PrincipalDetails(Member member, Map<String, Object> attributes) {
+        this.member = member;
+        this.attributes = attributes;
+    }
 
     // 해당 회원의 권한을 리턴하는 곳
     @Override
@@ -63,5 +76,15 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return OAuth2User.super.getAttribute(name);
     }
 }

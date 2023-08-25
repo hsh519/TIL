@@ -1,5 +1,6 @@
 package com.cos.security1.config.auth;
 
+import com.cos.security1.config.PrincipalDetails;
 import com.cos.security1.model.Member;
 import com.cos.security1.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class PrincipalDetailsService implements UserDetailsService {
      * username 파라미터는 로그인 시도할 때 작성한 username. 로그인 관련 html 파일에서 name 속성을 반드시 username으로 설정
      * UserDetails 구현 객체를 리턴
      */
+    // 함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("username = " + username);
