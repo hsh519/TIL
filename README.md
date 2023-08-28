@@ -53,6 +53,7 @@
 - [트랜잭션 이해](https://hsh519.tistory.com/75)
 - [스프링에서 트랜잭션 문제 해결](https://hsh519.tistory.com/76)
 - [스프링에서 예외 처리, JDBC 반복 문제 해결](https://hsh519.tistory.com/80)
+- [Spring Security와 기본 로그인](https://hsh519.tistory.com/123)
 
 ### 데이터베이스
 
