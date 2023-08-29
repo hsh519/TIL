@@ -1,17 +1,21 @@
 package com.cos.jwt.controller;
 
+import com.cos.jwt.auth.PrincipalDetails;
+import com.cos.jwt.config.jwt.TokenInfo;
 import com.cos.jwt.model.Member;
-import com.cos.jwt.repository.MemberRepository;
+import com.cos.jwt.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
 public class RestApiController {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("home")
     public String home() {
@@ -23,26 +27,32 @@ public class RestApiController {
         return "<h1>token</h1>";
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
     public String join(@RequestBody Member member) {
-        member.setPassword(bCryptPasswordEncoder.encode(member.getPassword()));
-        member.setRoles("ROLE_USER");
-        memberRepository.save(member);
+        memberService.join(member);
         return "회원가입 완료";
     }
 
-    @GetMapping("/api/v1/user")
+    @PostMapping("login")
+    public TokenInfo login(@RequestBody Member member) {
+        String memberId = member.getUsername();
+        String password = member.getPassword();
+        TokenInfo tokenInfo = memberService.login(memberId, password);
+        return tokenInfo;
+    }
+
+    @GetMapping("/api/user")
     public String user() {
-         return "<h1>user</h1>";
+         return "user";
     }
 
-    @GetMapping("/api/v1/manager")
-    public String manager() {
-        return "manager";
+    @PostMapping("refreshToken")
+    public TokenInfo refreshToken(HttpServletRequest request, Authentication authentication) {
+        String refreshToken = request.getHeader("refreshToken");
+        System.out.println("refreshToken = " + refreshToken);
+        TokenInfo tokenInfo = memberService.generateRefreshToken(refreshToken, authentication);
+        System.out.println("tokenInfo = " + tokenInfo.toString());
+        return tokenInfo;
     }
 
-    @GetMapping("/api/v1/admin")
-    public String admin() {
-        return "admin";
-    }
 }
