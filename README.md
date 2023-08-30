@@ -67,6 +67,8 @@
 - [정규화](https://hsh519.tistory.com/86)
 - [트랜잭션](https://hsh519.tistory.com/29)
 - [보안과 권환 관리](https://hsh519.tistory.com/87)
+- [Redis란?](https://hsh519.tistory.com/124)
+- [SQL과 NoSQL](https://hsh519.tistory.com/31)
 
 ### JPA
 
