@@ -104,6 +104,8 @@
 ### DevOps
 
 - [도커란?](https://hsh519.tistory.com/100)
+- [CI/CD 란?](https://hsh519.tistory.com/127)
+- [GitHub-Actions로 CI/CD 구축하기](https://hsh519.tistory.com/128)
 
 ### Redis
 
