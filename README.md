@@ -100,6 +100,7 @@
 
 - [운영체제의 개요](https://hsh519.tistory.com/92)
 - [컴퓨터의 구조와 성능 향상](https://hsh519.tistory.com/96)
+- [프로세스와 스레드](https://hsh519.tistory.com/33)
 
 ### DevOps
 
