@@ -102,6 +102,7 @@
 - [컴퓨터의 구조와 성능 향상](https://hsh519.tistory.com/96)
 - [프로세스와 스레드](https://hsh519.tistory.com/33)
 - [CPU 스케줄링](https://hsh519.tistory.com/130)
+- [프로세스 동기화](https://hsh519.tistory.com/131)
 
 ### DevOps
 
