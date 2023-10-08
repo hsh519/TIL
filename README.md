@@ -42,6 +42,7 @@
 - [서블릿, JSP, MVC 패턴](https://hsh519.tistory.com/53)
 - [MVC 패턴의 발전](https://hsh519.tistory.com/54)
 - [스프링 MVC 기본 구조](https://hsh519.tistory.com/55)
+- [스프링 MVC 기본 기능](https://hsh519.tistory.com/58)
 - [검증 1](https://hsh519.tistory.com/59)
 - [검증 2](https://hsh519.tistory.com/60)
 - [메시지와 국제화](https://hsh519.tistory.com/61)
