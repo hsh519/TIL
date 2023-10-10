@@ -105,6 +105,7 @@
 - [CPU 스케줄링](https://hsh519.tistory.com/130)
 - [프로세스 동기화](https://hsh519.tistory.com/131)
 - [교착상태](https://hsh519.tistory.com/132)
+- [물리 몌모리 관리](https://hsh519.tistory.com/133)
 
 ### DevOps
 
